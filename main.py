@@ -191,7 +191,7 @@ class UpdateContext:
             tempIndex = FileIndex(0, fullName)
             rete = FileIndex.compare(tempIndex, self.getEnd().getFileIndex())
             if retb >= 0 and rete <= 0:
-                file = open(fullName)
+                file = open(fullName, errors="ignore")
                 count = 0
                 for line in file:
                     tempIndex = FileIndex(count, fullName)
@@ -320,9 +320,11 @@ def analysisUpdateStatusLine(logLists):
     updateList = []
     for fullName in logLists:
         count = 0
-        file = open(fullName) 
+        file = open(fullName, errors="ignore")
+        line = ""
         for line in file:
             count = count + 1
+            #print(line)
             if re.search("xl4.update-status", line) != None :
                 logline = UpdateStatusLogLine(line, "xl4.update-status", FileIndex(count, fullName))
                 if logline.getUpdateStatus() != "NULL" :
