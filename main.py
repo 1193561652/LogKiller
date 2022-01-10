@@ -88,6 +88,10 @@ class UpdateStatusLogLine(LogLine) :
 #Finish Reprogram
 #FINISH
 
+#[uds_repro.cpp:udsRepro_processUdsState:252] [UDS REPRO] Notify State: Negative Response Error
+#Negative Response Error
+#NORESPONSE
+
 #[uds_repro.cpp:udsRepro_processUdsState:255] 3016:2985018448 [UDS REPRO] Notify State: No Response Error
 #No Response Error
 #NORESPONSE
@@ -100,6 +104,12 @@ class UpdateStatusLogLine(LogLine) :
 
 #doip  init
 #DOIPINIT
+
+#[uds_case_mgr.cpp:CaseMgr_GetCaseFromCaseVector:188] [UDS Data]:7101020300
+#CaseMgr_GetCaseFromCaseVector:[0-9]+\] [0-9:\s]*\[UDS Data]:[0-9]+
+#GETCASE
+
+
 
 class UDSLogLine(LogLine) :
     #self.udsLogType = "NULL"
@@ -125,9 +135,13 @@ class UDSLogLine(LogLine) :
             self.udsLogType = "CANWAIT"
         elif re.search("UdsSeq_RecvResponse:[0-9]+\] [0-9:\s]*\[UDS Data\]:[0-9]+", self.logLine) != None :
             self.udsLogType = "RECVRESPONSE"
+        elif re.search("CaseMgr_GetCaseFromCaseVector:[0-9]+\] [0-9:\s]*\[UDS Data]:[0-9]+", self.logLine) != None :
+            self.udsLogType = "GETCASE"
         elif re.search("Finish Reprogram", self.logLine) != None :
             self.udsLogType = "FINISH"
         elif re.search("No Response Error", self.logLine) != None :
+            self.udsLogType = "NORESPONSE"
+        elif re.search("Negative Response Error", self.logLine) != None :
             self.udsLogType = "NORESPONSE"
         elif re.search("start to init doip", self.logLine) != None :
             self.udsLogType = "DOIPSTART"
